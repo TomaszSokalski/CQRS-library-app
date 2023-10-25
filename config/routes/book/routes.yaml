@@ -1,0 +1,4 @@
+book_create:
+  path: /books
+  controller: App\UI\Controller\Book\CreateBookController
+  methods:  [POST]
