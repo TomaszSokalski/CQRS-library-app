@@ -7,3 +7,8 @@ books:
   path: /books
   controller: App\UI\Controller\Book\GetBooksController
   methods: [ GET ]
+
+book_delete:
+  path: /books/{id}
+  controller: App\UI\Controller\Book\DeleteBookController
+  methods: [ DELETE ]

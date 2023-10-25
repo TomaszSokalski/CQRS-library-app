@@ -20,4 +20,11 @@ final class DoctrineORMBookRepository implements BookRepositoryInterface
         $this->entityManager->persist($book);
         $this->entityManager->flush();
     }
+
+    public function remove(string $id): void
+    {
+        $book = $this->entityManager->getRepository(Book::class)->find($id);
+        $this->entityManager->remove($book);
+        $this->entityManager->flush();
+    }
 }
