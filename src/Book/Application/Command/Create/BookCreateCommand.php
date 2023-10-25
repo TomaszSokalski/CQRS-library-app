@@ -3,14 +3,22 @@
 namespace App\Book\Application\Command\Create;
 
 use App\Shared\Domain\Bus\Command\Command;
+use Symfony\Component\Validator\Constraints as Assert;
 
 final class BookCreateCommand implements Command
 {
     public function __construct(
+        #[Assert\NotBlank]
+        #[Assert\NotBlank(message: 'Book title is required')]
         private readonly string $title,
+
+        #[Assert\NotBlank]
+        #[Assert\NotNull(message: 'Book author is required')]
         private readonly string $author,
-        private readonly string $status,
-        private readonly \DateTime $publicationDate,
+
+        #[Assert\NotNull]
+        #[Assert\NotBlank(message: 'Publication date is required')]
+        private readonly string $publicationDate,
     ) {
     }
 
@@ -24,13 +32,11 @@ final class BookCreateCommand implements Command
         return $this->author;
     }
 
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
+    /**
+     * @throws \Exception
+     */
     public function getPublicationDate(): \DateTime
     {
-        return $this->publicationDate;
+        return new \DateTime($this->publicationDate);
     }
 }

@@ -21,8 +21,7 @@ class CreateBookController extends AbstractController
         $this->dispatch(new BookCreateCommand(
             $payload['title'],
             $payload['author'],
-            $payload['status'],
-            new \DateTime($payload['publicationDate'])));
+            $payload['publicationDate']));
 
         return new Response(null, Response::HTTP_CREATED,);
     }
