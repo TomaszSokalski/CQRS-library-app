@@ -11,7 +11,7 @@ final class BookViewModel
         private readonly string $title,
         private readonly string $author,
         private readonly string $status,
-        private readonly \DateTime $publicationDate,
+        private readonly \DateTimeInterface $publicationDate
     ) {
     }
 
@@ -35,8 +35,19 @@ final class BookViewModel
         return $this->status;
     }
 
-    public function publicationDate(): \DateTime
+    public function publicationDate(): \DateTimeInterface
     {
         return $this->publicationDate;
+    }
+
+    public function data(): array
+    {
+        return [
+            'id' => $this->id(),
+            'title' => $this->title(),
+            'author' => $this->author(),
+            'status' => $this->status(),
+            'publicationDate' => $this->publicationDate()->format('Y-m-d'),
+        ];
     }
 }

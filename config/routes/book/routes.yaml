@@ -3,9 +3,14 @@ book_create:
   controller: App\UI\Controller\Book\CreateBookController
   methods: [ POST ]
 
-books:
+book_index:
   path: /books
   controller: App\UI\Controller\Book\GetBooksController
+  methods: [ GET ]
+
+book_find:
+  path: /books/{id}
+  controller: App\UI\Controller\Book\GetBookController
   methods: [ GET ]
 
 book_delete:

@@ -6,8 +6,8 @@ namespace App\Book\Infrastructure\Repository;
 
 use App\Book\Application\Query\BookQueryInterface;
 use App\Book\Domain\ViewModel\BookCollectionViewModel;
+use App\Book\Domain\ViewModel\BookViewModel;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
 
 final class DoctrineDBALBookRepository implements BookQueryInterface
 {
@@ -17,13 +17,27 @@ final class DoctrineDBALBookRepository implements BookQueryInterface
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function getAll(): BookCollectionViewModel
     {
-        $qb = $this->connection->prepare('SELECT * FROM book');
-        $books = $qb->executeQuery()->fetchAllAssociative();
+        $sql = 'SELECT * FROM book';
+        $stmt = $this->connection->prepare($sql);
+        $books = $stmt->executeQuery()->fetchAllAssociative();
 
         return new BookCollectionViewModel($books);
+    }
+
+
+    /**
+     * @throws \Exception
+     */
+    public function findById(string $id): BookViewModel
+    {
+        $sql = 'SELECT id, title, author, status, publication_date FROM book WHERE id = :id';
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue('id', $id);
+        $book = $stmt->executeQuery()->fetchAssociative();
+        return new BookViewModel($book['id'], $book['title'], $book['author'], $book['status'], new \DateTime($book['publication_date']));
     }
 }
